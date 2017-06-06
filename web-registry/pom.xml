@@ -66,14 +66,38 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- tag::plugin[] -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                	<!-- <dockerHost>localhost:52714</dockerHost>-->
+                    <imageName>web-registry</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                       <!--  <resource>
+                            <targetPath>target</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource> -->
+                        <resource>
+                            <targetPath>image</targetPath>
+                            <directory>src/main/docker</directory>
+                            <include>web-registry.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <!-- end::plugin[] -->
+        </plugins>
+    </build>
 
 	<repositories>
 		<repository>
